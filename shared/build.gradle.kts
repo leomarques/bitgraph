@@ -5,7 +5,6 @@ plugins {
 }
 
 kotlin {
-
     androidLibrary {
         namespace = "com.leom.shared"
         compileSdk = 35
@@ -48,14 +47,15 @@ kotlin {
             dependencies {
                 implementation(libs.kotlin.stdlib)
                 implementation(libs.koin.core)
-                // Coroutines
                 implementation(libs.kotlinx.coroutines.core)
-                // Ktor client for networking
                 implementation(libs.ktor.client.core)
                 implementation(libs.ktor.client.content.negotiation)
                 implementation(libs.ktor.serialization.kotlinx.json)
                 implementation(libs.ktor.client.logging)
                 implementation(libs.kotlinx.serialization.json)
+                implementation(libs.vico.multiplatform)
+                implementation(libs.vico.multiplatform.m3)
+                implementation(libs.kotlinx.datetime)
             }
         }
 
