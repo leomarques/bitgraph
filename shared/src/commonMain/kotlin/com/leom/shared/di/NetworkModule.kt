@@ -2,7 +2,6 @@ package com.leom.shared.di
 
 import com.leom.shared.network.ApiService
 import com.leom.shared.network.HttpClientFactory
-import com.leom.shared.network.SampleRequestViewModel
 import org.koin.dsl.module
 
 /**
@@ -15,7 +14,4 @@ val networkModule =
 
         // API service with injected HTTP client
         single { ApiService(get()) }
-
-        // ViewModel for handling network operations
-        factory { SampleRequestViewModel() }
     }

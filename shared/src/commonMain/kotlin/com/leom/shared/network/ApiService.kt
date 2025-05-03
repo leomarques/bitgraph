@@ -3,126 +3,65 @@ package com.leom.shared.network
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
-import io.ktor.client.request.post
-import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 
 /**
  * Example API service for making HTTP requests
  */
 class ApiService(private val httpClient: HttpClient) {
     companion object {
-        private const val BASE_URL = "https://jsonplaceholder.typicode.com"
+        private const val BASE_URL = "https://api.coingecko.com/api/v3"
     }
 
     /**
-     * Fetches sample data from the API
+     * Fetches the historical price of Bitcoin for the last 365 days.
      * @return Flow emitting the API response
      */
-    fun fetchSampleData(): Flow<Result<SampleResponse>> =
+    fun fetchBitcoinHistory(): Flow<Result<List<BitcoinPriceHistory>>> =
         flow {
             try {
                 val response =
-                    httpClient.get("$BASE_URL/posts") {
+                    httpClient.get("$BASE_URL/coins/bitcoin/market_chart") {
+                        url {
+                            parameters.append("vs_currency", "usd")
+                            parameters.append("days", "365")
+                        }
                         contentType(ContentType.Application.Json)
                     }
-                // Convert the response to our model
-                val posts: List<Post> = response.body()
-                val sampleItems =
-                    posts.map { post ->
-                        SampleItem(title = post.title, description = post.body)
-                    }
-                emit(
-                    Result.success(
-                        SampleResponse(
-                            id = "posts-response",
-                            results = sampleItems,
-                            totalCount = sampleItems.size,
-                        ),
-                    ),
-                )
+
+                // Log the raw response for debugging purposes
+                val rawJson = response.body<String>()
+                println("Raw Response: $rawJson")
+
+                // Configure JSON with ignoreUnknownKeys true
+                val json = Json { ignoreUnknownKeys = true }
+                val marketData: BitcoinMarketData = json.decodeFromString(rawJson)
+                val history = marketData.prices.map { BitcoinPriceHistory(date = it[0], price = it[1]) }
+
+                emit(Result.success(history))
             } catch (e: Exception) {
-                emit(Result.failure(e))
-            }
-        }
-
-    /**
-     * Posts data to the API
-     * @param request data to send
-     * @return Flow emitting the API response
-     */
-    fun postData(request: SampleRequest): Flow<Result<SampleResponse>> =
-        flow {
-            try {
-                val postRequest =
-                    Post(
-                        userId = 1,
-                        id = 0, // will be assigned by the server
-                        title = request.query,
-                        body = "Sample post with count: ${request.count}",
-                    )
-
-                val response =
-                    httpClient.post("$BASE_URL/posts") {
-                        contentType(ContentType.Application.Json)
-                        setBody(postRequest)
-                    }
-
-                val createdPost: Post = response.body()
-                val sampleItem =
-                    SampleItem(
-                        title = createdPost.title,
-                        description = createdPost.body,
-                    )
-
-                emit(
-                    Result.success(
-                        SampleResponse(
-                            id = createdPost.id.toString(),
-                            results = listOf(sampleItem),
-                            totalCount = 1,
-                        ),
-                    ),
-                )
-            } catch (e: Exception) {
-                emit(Result.failure(e))
+                val errorMessage = e.message ?: "Unknown error occurred"
+                println("Error fetching Bitcoin history: $errorMessage")
+                emit(Result.failure(Exception("Failed to fetch Bitcoin history: $errorMessage")))
             }
         }
 }
 
 /**
- * Sample data models for API requests/responses
+ * Updated data models for the Bitcoin price history API response
  */
 @Serializable
-data class SampleRequest(
-    val query: String,
-    val count: Int = 10,
+data class BitcoinMarketData(
+    val prices: List<List<Double>>,
 )
 
 @Serializable
-data class SampleResponse(
-    val id: String,
-    val results: List<SampleItem> = emptyList(),
-    val totalCount: Int = 0,
-)
-
-@Serializable
-data class SampleItem(
-    val title: String,
-    val description: String? = null,
-)
-
-/**
- * JSONPlaceholder API model
- */
-@Serializable
-data class Post(
-    val userId: Int,
-    val id: Int,
-    val title: String,
-    val body: String,
+data class BitcoinPriceHistory(
+    val date: Double, // Timestamp in milliseconds
+    val price: Double, // Price in USD
 )
