@@ -6,7 +6,7 @@ import com.leom.shared.di.KoinAndroid
 /**
  * Main application class that initializes dependencies
  */
-class BitGraphApp : Application() {
+class MyApplication : Application() {
     
     override fun onCreate() {
         super.onCreate()

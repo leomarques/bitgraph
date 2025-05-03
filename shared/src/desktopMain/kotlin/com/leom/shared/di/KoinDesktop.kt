@@ -1,5 +1,7 @@
 package com.leom.shared.di
 
+import org.koin.core.context.startKoin
+
 /**
  * Desktop-specific Koin initialization
  */
@@ -9,15 +11,7 @@ object KoinDesktop {
      */
     fun init() {
         startKoin {
-            modules(createPlatformModule())
+            modules(networkModule)
         }
-    }
-    
-    /**
-     * Create platform-specific modules
-     */
-    private fun createPlatformModule(): Module = module {
-        // Register desktop-specific implementations
-        single<ExampleRepository> { ExampleRepositoryImpl() }
     }
 }

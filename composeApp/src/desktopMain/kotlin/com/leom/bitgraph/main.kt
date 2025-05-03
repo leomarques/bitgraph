@@ -2,9 +2,9 @@ package com.leom.bitgraph
 
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import com.leom.shared.di.KoinDesktop
 
 fun main() {
-    // Initialize Koin for Desktop
     KoinDesktop.init()
     
     application {
@@ -12,7 +12,7 @@ fun main() {
             onCloseRequest = ::exitApplication,
             title = "bitgraph"
         ) {
-            App()
+            MainComposable()
         }
     }
 }

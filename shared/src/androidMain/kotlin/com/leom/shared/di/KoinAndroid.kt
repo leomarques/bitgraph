@@ -17,15 +17,8 @@ object KoinAndroid {
         startKoin {
             androidLogger()
             androidContext(context)
-            modules(createPlatformModule())
+            modules(networkModule)
         }
     }
 
-    /**
-     * Create platform-specific modules
-     */
-    private fun createPlatformModule() = module {
-        // Register Android-specific implementations
-        single<ExampleRepository> { ExampleRepositoryImpl() }
-    }
 }

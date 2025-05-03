@@ -42,7 +42,6 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.koin.android)
-            implementation(libs.koin.compose)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -54,6 +53,8 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(project(":shared"))
         }
     }
 }
@@ -86,7 +87,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":shared"))
     debugImplementation(compose.uiTooling)
 }
 
