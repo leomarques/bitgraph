@@ -36,7 +36,7 @@ import org.koin.compose.koinInject
 @Composable
 fun SampleRequestView(
     viewModel: SampleRequestViewModel = koinInject<SampleRequestViewModel>(),
-    platform: String
+    platform: String,
 ) {
     // Collect the ViewModel state
     val uiState by viewModel.uiState.collectAsState()
@@ -46,7 +46,7 @@ fun SampleRequestView(
 
     Column(
         modifier = Modifier.fillMaxWidth().padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text("Hello, $platform!", style = MaterialTheme.typography.h6)
         Text("API Request Example", style = MaterialTheme.typography.h6)
@@ -56,7 +56,7 @@ fun SampleRequestView(
         // GET Button
         Button(
             onClick = { viewModel.fetchData() },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
             Text("GET Sample Data")
         }
@@ -71,7 +71,7 @@ fun SampleRequestView(
             placeholder = { Text("Enter search query") },
             modifier = Modifier.fillMaxWidth(),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-            singleLine = true
+            singleLine = true,
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -80,7 +80,7 @@ fun SampleRequestView(
         Button(
             onClick = { viewModel.sendData(query) },
             modifier = Modifier.fillMaxWidth(),
-            enabled = query.isNotBlank()
+            enabled = query.isNotBlank(),
         ) {
             Text("POST Data")
         }
@@ -109,14 +109,14 @@ private fun NetworkStateDisplay(state: NetworkUiState) {
         is NetworkUiState.Success -> {
             Text(
                 text = state.message,
-                color = MaterialTheme.colors.primary
+                color = MaterialTheme.colors.primary,
             )
         }
 
         is NetworkUiState.Error -> {
             Text(
                 text = state.message,
-                color = MaterialTheme.colors.error
+                color = MaterialTheme.colors.error,
             )
         }
     }

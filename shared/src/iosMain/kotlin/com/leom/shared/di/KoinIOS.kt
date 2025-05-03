@@ -19,8 +19,9 @@ object KoinIOS {
     /**
      * Create platform-specific modules
      */
-    private fun createPlatformModule() = module {
-        // Register iOS-specific implementations
-        single<ExampleRepository> { ExampleRepositoryImpl() }
-    }
+    private fun createPlatformModule() =
+        module {
+            // Register iOS-specific implementations
+            single<ExampleRepository> { ExampleRepositoryImpl() }
+        }
 }

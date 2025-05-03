@@ -8,13 +8,14 @@ import org.koin.dsl.module
 /**
  * Koin DI module for networking components
  */
-val networkModule = module {
-    // HTTP client provided as a singleton
-    single { HttpClientFactory.create() }
+val networkModule =
+    module {
+        // HTTP client provided as a singleton
+        single { HttpClientFactory.create() }
 
-    // API service with injected HTTP client
-    single { ApiService(get()) }
+        // API service with injected HTTP client
+        single { ApiService(get()) }
 
-    // ViewModel for handling network operations
-    factory { SampleRequestViewModel() }
-}
+        // ViewModel for handling network operations
+        factory { SampleRequestViewModel() }
+    }

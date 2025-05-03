@@ -34,7 +34,7 @@ class SampleRequestViewModel : KoinComponent {
                 .catch { error ->
                     _uiState.update {
                         NetworkUiState.Error(
-                            error.message ?: "Unknown error occurred"
+                            error.message ?: "Unknown error occurred",
                         )
                     }
                 }
@@ -42,14 +42,16 @@ class SampleRequestViewModel : KoinComponent {
                     result.fold(
                         onSuccess = { response ->
                             _uiState.update {
-                                NetworkUiState.Success("Fetched ${response.results.size} items, total count: ${response.totalCount}")
+                                NetworkUiState.Success(
+                                    "Fetched ${response.results.size} items, total count: ${response.totalCount}",
+                                )
                             }
                         },
                         onFailure = { error ->
                             _uiState.update {
                                 NetworkUiState.Error(error.message ?: "Unknown error occurred")
                             }
-                        }
+                        },
                     )
                 }
         }
@@ -73,7 +75,7 @@ class SampleRequestViewModel : KoinComponent {
                 .catch { error ->
                     _uiState.update {
                         NetworkUiState.Error(
-                            error.message ?: "Unknown error occurred"
+                            error.message ?: "Unknown error occurred",
                         )
                     }
                 }
@@ -88,7 +90,7 @@ class SampleRequestViewModel : KoinComponent {
                             _uiState.update {
                                 NetworkUiState.Error(error.message ?: "Unknown error occurred")
                             }
-                        }
+                        },
                     )
                 }
         }
@@ -100,7 +102,10 @@ class SampleRequestViewModel : KoinComponent {
  */
 sealed class NetworkUiState {
     data object Idle : NetworkUiState()
+
     data object Loading : NetworkUiState()
+
     data class Success(val message: String) : NetworkUiState()
+
     data class Error(val message: String) : NetworkUiState()
 }

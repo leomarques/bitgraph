@@ -6,11 +6,11 @@ import com.leom.shared.di.KoinDesktop
 
 fun main() {
     KoinDesktop.init()
-    
+
     application {
         Window(
             onCloseRequest = ::exitApplication,
-            title = "bitgraph"
+            title = "bitgraph",
         ) {
             MainComposable()
         }

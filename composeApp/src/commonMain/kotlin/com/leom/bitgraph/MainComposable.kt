@@ -9,7 +9,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun MainComposable() {
     MaterialTheme {
         SampleRequestView(
-            platform = getPlatform().name
+            platform = getPlatform().name,
         )
     }
 }
