@@ -1,3 +1,6 @@
+# Bitgraph
+![Screenshot_20250520_004633](https://github.com/user-attachments/assets/2eed344e-ff1f-44d8-a387-c3656ccca0be)
+
 This is a Kotlin Multiplatform project targeting Android, iOS, Desktop.
 
 * `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
