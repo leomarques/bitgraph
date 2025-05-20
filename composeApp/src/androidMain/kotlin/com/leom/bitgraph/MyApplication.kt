@@ -10,7 +10,6 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        // Initialize Koin
         KoinAndroid.init(this)
     }
 }
